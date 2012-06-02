@@ -1,38 +1,10 @@
-require 'data_mapper'
-require 'dm-sqlite-adapter'
-require 'progressbar'
-require 'pry'
+require './environment.rb'
 
-class Node
-  include DataMapper::Resource
-  
-  property :id, Integer, :key => true
-  property :parent, Integer
-  property :name, String
-end
-
-# SET UP THE DATABASE!
-DataMapper.finalize
-DataMapper.setup(:default, :adapter => 'sqlite', :database => "test.db")
-DataMapper::Model.raise_on_save_failure = true
-DataMapper.auto_upgrade!
-
-##
-# Return an array with a full taxonomic description given a name
-#
-def get_taxonomy(name)
-
-  taxonomy = Array.new
-  node_id = Node.first(:name => name)
-
-  while node_id != 1 && !node_id.nil?
-    parent = Node.get(node_id)
-    node_id = parent.id
-    parent.name
-  end.collect
-end
 
 task :update_database => [:load_ids, :load_names] do
+end
+
+task :pushdb do
 end
 
 task :console do
@@ -61,11 +33,11 @@ task :load_names do
   # go back and add names
   File.open('names.dmp') do |handle|
     handle.each do |line|
-      pbar.inc
       line = line.strip.split("\t")
       node_id, name, type = line[0], line[2], line[6]
       next if type != 'scientific name'
       node = Node.get(node_id)
+      pbar.inc
       if !node.nil?
         node.update! :name => name
       else
