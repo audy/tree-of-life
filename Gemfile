@@ -1,6 +1,9 @@
 source :rubygems
 
-gem 'data_mapper'
-gem 'dm-postgres-adapter'
+gem 'thin'
+gem 'sinatra'
+gem 'mongo_mapper'
 gem 'progressbar'
 gem 'pry'
+gem 'rake'
+gem 'bson_ext'

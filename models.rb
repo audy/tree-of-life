@@ -1,7 +1,6 @@
 class Node
-  include DataMapper::Resource
-
-  property :id, Integer, :key => true
-  property :parent, Integer
-  property :name, String, :length => 200
+  include MongoMapper::Document
+  key :taxon_id, Integer
+  key :parent_id, Integer
+  key :name, String
 end
