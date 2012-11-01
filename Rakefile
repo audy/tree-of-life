@@ -1,6 +1,6 @@
 require './environment.rb'
 
-
+desc 'update names and nodes databases'
 task :update_database => [:load_nodes, :load_names] do
 end
 
