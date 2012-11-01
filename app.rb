@@ -1,6 +1,6 @@
 require './environment.rb'
 
-set :port, 5678
+set :port, 9999
 #set :server, 'thin'
 set :environment, :development
 #set :lock, true
@@ -36,5 +36,11 @@ end
 
 get '/taxonomy/:name' do
   taxonomy = build_taxonomy(Node.first( :name => params[:name] ))
+  json_or_error :taxonomy => taxonomy
+end
+
+get '/taxid/:id' do
+  $stderr.puts params.inspect
+  taxonomy = build_taxonomy(Node.first( :taxon_id => params[:id].to_i ))
   json_or_error :taxonomy => taxonomy
 end
