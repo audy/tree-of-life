@@ -1,5 +1,9 @@
 # Tree of Life
 
+A simple app for building taxonomies based on NCBI taxonomy database.
+
+Supports searching by name or taxonid
+
 ## Getting Started
 
 - Setup/Install/Run MongoDB. By default this app will create a database
