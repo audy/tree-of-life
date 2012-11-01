@@ -8,7 +8,7 @@ Supports searching by name or taxonid
 
 ```
 
-$ curl http://heyaudy.com:9999/taxonomy/Tyrannosaurus%20rex
+$ curl http://localhost:9999/taxonomy/Tyrannosaurus%20rex
 
 {"taxonomy":"cellular
 organisms;Eukaryota;Opisthokonta;Metazoa;Eumetazoa;Bilateria;Coelomata;Deuterostomia;Chordata;Craniata;Vertebrata;Gnathostomata;Teleostomi;Euteleostomi;Sarcopterygii;Tetrapoda;Amniota;Sauropsida;Sauria;Archosauria;Dinosauria;Saurischia;Theropoda;Coelurosauria;Tyrannosauridae;Tyrannosaurus;Tyrannosaurus
