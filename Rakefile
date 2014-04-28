@@ -2,9 +2,6 @@ desc 'update names and nodes databases'
 task :update_database => [:load_nodes, :load_names] do
 end
 
-task :pushdb do
-end
-
 task :console do
   require './environment.rb'
   binding.pry
