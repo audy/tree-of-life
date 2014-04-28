@@ -11,13 +11,13 @@ task :console do
 end
 
 task :load_nodes do
-  pbar = ProgressBar.new 'nodes', `wc -l nodes.dmp`.strip.split.first.to_i
   require './environment.rb'
+  pbar = ProgressBar.new 'nodes', File.size('nodes.dmp')
 
   # first load nodes
   File.open('nodes.dmp') do |handle|
     handle.each do |line|
-      pbar.inc
+      pbar.set handle.pos
       line = line.strip.split
       node_id, parent_id, level = line[0], line[2], line[4]
       node = Node.new(:taxon_id => node_id, :parent_id => parent_id)
@@ -28,8 +28,8 @@ task :load_nodes do
 end
 
 task :load_names do
-  pbar = ProgressBar.new 'names', `grep -c "scientific name" names.dmp`.strip.to_i
   require './environment.rb'
+  pbar = ProgressBar.new 'names', File.size('names.dmp')
 
   # go back and add names
   File.open('names.dmp') do |handle|
@@ -42,7 +42,7 @@ task :load_names do
       # we only want real scientific names
       next unless type == 'scientific name'
 
-      pbar.inc
+      pbar.set handle.pos
       node = Node.first( :taxon_id => node_id)
 
       unless node.nil?
