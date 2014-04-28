@@ -1,5 +1,3 @@
-require './environment.rb'
-
 desc 'update names and nodes databases'
 task :update_database => [:load_nodes, :load_names] do
 end
@@ -8,11 +6,13 @@ task :pushdb do
 end
 
 task :console do
+  require './environment.rb'
   binding.pry
 end
 
 task :load_nodes do
   pbar = ProgressBar.new 'nodes', `wc -l nodes.dmp`.strip.split.first.to_i
+  require './environment.rb'
 
   # first load nodes
   File.open('nodes.dmp') do |handle|
@@ -29,6 +29,7 @@ end
 
 task :load_names do
   pbar = ProgressBar.new 'names', `grep -c "scientific name" names.dmp`.strip.to_i
+  require './environment.rb'
 
   # go back and add names
   File.open('names.dmp') do |handle|
