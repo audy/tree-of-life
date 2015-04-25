@@ -17,15 +17,26 @@ organisms;Eukaryota;Opisthokonta;Metazoa;Eumetazoa;Bilateria;Coelomata;Deuterost
 rex"}
 ```
 
+## Requirements
+
+- Tested on Ruby 1.9.3 w/ bundler
+- SQLite 3
+
 ## Getting Started
 
-- Setup/Install/. By default this app will create a database called
-  `database.sqlite`. Edit `environment.rb` to change this.
-- `bundle install`
-- Download `names.dmp` and `nodes.dmp`:
-  `ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz`
-- run `rake update_database`
-- run `rackup` to start the webserver
+```
+bundle # installs dependencies
+rake db:migrate # creates database.sqlite
+
+# download and extract names.dmp and nodes.dmp from
+# ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
+
+# update database
+rake update_database
+
+# start webserver on port 9999
+rackup
+```
 
 ## LICENSE
 
