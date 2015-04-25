@@ -1,55 +1,63 @@
-desc 'update names and nodes databases'
-task :update_database => [:load_nodes, :load_names] do
-end
-
+desc 'start interactive console'
 task :console do
   require './environment.rb'
   binding.pry
 end
 
-task :load_nodes do
+desc 'update names and nodes databases'
+task :update_database do
   require './environment.rb'
   pbar = ProgressBar.new 'nodes', File.size('nodes.dmp')
 
   # first load nodes
-  File.open('nodes.dmp') do |handle|
-    handle.each do |line|
-      pbar.set handle.pos
-      line = line.strip.split
-      node_id, parent_id, level = line[0], line[2], line[4]
-      node = Node.new(:taxon_id => node_id, :parent_id => parent_id)
-      node.save
-    end
+  nodes =
+    File.open('nodes.dmp') do |handle|
+      handle.map do |line|
+        pbar.set handle.pos
+        line = line.strip.split
+        # child_id, parent_id
+        [ line[0].to_i, [ line[2].to_i ] ]
+      end
   end
-  pbar.finish
-end
 
-task :load_names do
-  require './environment.rb'
+  # child_id -> [ parent_id, ... ]
+  nodes = Hash[nodes]
+
+  # then load names
   pbar = ProgressBar.new 'names', File.size('names.dmp')
 
   # go back and add names
   File.open('names.dmp') do |handle|
-    handle.each do |line|
-
+    handle.map do |line|
       line = line.strip.split("\t")
-
       node_id, name, type = line[0].to_i, line[2], line[6]
-
       # we only want real scientific names
       next unless type == 'scientific name'
-
+      nodes[node_id] << name
       pbar.set handle.pos
-      node = Node.first( :taxon_id => node_id)
-
-      unless node.nil?
-        node.update_attributes(:name => name)
-        node.save
-      else
-        puts "missing: #{node_id}, #{name}"
-      end
     end
   end
 
+
   pbar.finish
+  puts "loaded #{nodes.size} nodes/names"
+  puts 'bulk importing...'
+  DB.transaction do
+    DB[:nodes].import([:taxon_id, :parent_id, :name], nodes.map { |x| x.to_a.flatten })
+  end
+end
+
+namespace :db do
+  task :migrate do
+    require './environment.rb'
+    DB.create_table :nodes do
+      Integer :taxon_id, index: true
+      Integer :parent_id, index: true
+      String :name, index: true
+    end
+  end
+end
+
+task :load_names do
+  require './environment.rb'
 end

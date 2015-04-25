@@ -1,9 +1,9 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gem 'thin'
 gem 'sinatra'
-gem 'mongo_mapper'
+gem 'sequel'
+gem 'sqlite3'
 gem 'progressbar'
 gem 'pry'
 gem 'rake'
-gem 'bson_ext'

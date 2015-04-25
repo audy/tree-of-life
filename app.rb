@@ -5,25 +5,6 @@ set :port, 9999
 set :environment, :development
 #set :lock, true
 
-puts "indexing... "
-Node.ensure_index :taxon_id
-Node.ensure_index :name
-puts "done"
-
-def json_or_error(o)
-  o.to_json rescue "{ 'error': 'not found' }"
-end
-
-def build_taxonomy(node)
-  taxonomy = []
-  return 'null' if node.nil?
-  while ( node.taxon_id != 1 && !node.nil? )
-    taxonomy << node.name
-    parent_id = node.parent_id
-    node = Node.first( :taxon_id => parent_id )
-  end
-  taxonomy.reverse.join(';')
-end
 
 get '/search/:query' do
   matches = Node.first( :name => /#{params[:query]}/i )#.limit(100).map(&:name)
