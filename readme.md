@@ -25,7 +25,7 @@ rex"}
 
 ## Getting Started
 
-```
+```bash
 bundle # installs dependencies
 rake db:migrate # creates database.sqlite
 
