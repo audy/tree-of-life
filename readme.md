@@ -3,8 +3,8 @@
 A simple app for querying taxonomies based on NCBI taxonomy database. Capable of
 handling many queries per second and is much simpler to use than the NCBI API.
 
-Capable of building taxonomic descriptions from a name (such as "Tyrannosaurus")
-or NCBI taxonomy id.
+Provides a web microservice that returns taxonomic descriptions when queried by
+name (such as "Tyrannosaurus") or NCBI taxonomy id.
 
 Returns taxonomy in JSON format.
 
