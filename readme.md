@@ -1,8 +1,11 @@
 # Tree of Life
 
-A simple app for building taxonomies based on NCBI taxonomy database.
+A simple app for querying taxonomies based on NCBI taxonomy database.
 
-Supports searching by name or taxonid
+Capable of building taxonomic descriptions from a name (such as "Tyrannosaurus")
+or NCBI taxonomy id.
+
+Returns taxonomy in JSON format.
 
 ### Example
 
