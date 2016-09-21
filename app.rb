@@ -1,10 +1,7 @@
 require './environment.rb'
 
 set :port, 9999
-#set :server, 'thin'
 set :environment, :development
-#set :lock, true
-
 
 get '/search/:query' do
   json_or_error Node.where(Sequel.ilike(:name, "%#{params[:query]}%")).first(10).map { |x| { x.taxon_id => build_taxonomy(x) } }
