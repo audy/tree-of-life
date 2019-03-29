@@ -1,6 +1,7 @@
 require './environment.rb'
 
 set :port, 9999
+set :bind, '0.0.0.0'
 set :environment, :development
 
 get '/search/:query' do
